@@ -2,10 +2,8 @@
 //Each truck can take {each route which will get populated by backend after 2 or N number of bins are added in bins list} . 2 or n number of bins managed by 1 truck.
 
 export const solveCVRP = (distanceMatrix, truckCount) => {
-    // Implement your CVRP algorithm here
+    // CVRP Algo
     return [
-     
-
       {
         //truck 1 goes to bin 2 & bin 3
         origin: { lat: 12.9716, lng: 77.5940 },
@@ -28,7 +26,7 @@ export const solveCVRP = (distanceMatrix, truckCount) => {
   // Function to create truckBins based on CVRP solution which assigns bins to trucks
 export const createTruckBins = (cvrpSolution) => {
   return cvrpSolution.map((route,index) => {
-    
+
     // Collect waypoints
     const bins = route.waypoints.map((wp) => ({
       lat: wp.location.lat,
@@ -49,9 +47,3 @@ export const createTruckBins = (cvrpSolution) => {
   });
 };
 
-// Example usage
-// const cvrpSolution = solveCVRP(null, 2);
-// const trucks = createTruckBins(cvrpSolution);
-
-// console.log(trucks);
- //12.969884415055294, 77.59751447496744

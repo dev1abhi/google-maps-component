@@ -23,6 +23,7 @@ const MapContainer = ({ directionsResults, setMap, API_KEY }) => {
         onLoad={(mapInstance) => setMap(mapInstance)}
       >
         <Marker position={center} icon="http://maps.google.com/mapfiles/ms/icons/blue-dot.png" label="Depot" />
+        
         {directionsResults.map((result, idx) => (
           <DirectionsRenderer
             key={idx}

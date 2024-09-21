@@ -5,9 +5,19 @@ export const getDistanceMatrix = async (depot, bins) => {
   const destinations = bins.map(bin => `${bin.lat},${bin.lng}`);
 
   try {
+    //change according to production link
+
+    //development link
+    // const response = await axios.get(
+    //   `http://localhost:5000/map/distancematrix?origins=${origins.join('|')}&destinations=${destinations.join('|')}`
+    // );
+
+    //production link
     const response = await axios.get(
-      `http://localhost:5000/map/distancematrix?origins=${origins.join('|')}&destinations=${destinations.join('|')}`
+      `https://eco-india-backend-alpha.vercel.app/map/distancematrix?origins=${origins.join('|')}&destinations=${destinations.join('|')}`
     );
+
+
     console.log('Distance Matrix Response:', response.data);
 
     if (response.data && response.data.rows && Array.isArray(response.data.rows) && response.data.rows.length > 0) {
