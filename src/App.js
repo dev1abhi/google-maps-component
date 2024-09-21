@@ -23,7 +23,7 @@ const API_KEY = 'AIzaSyAV_2oWQhPdIhkkxtTCv29EnRABHyeg-EA'; // Replace with your 
 
 
 //production link
-const socket = io('https://eco-india-backend-alpha.vercel.app',{  
+const socket = io('https://ecoindia-backend.onrender.com/',{  
   transports: ["websocket", "polling"],
   withCredentials: true,
   secure:true
