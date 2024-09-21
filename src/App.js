@@ -31,8 +31,8 @@ const socket = io('https://ecoindia-backend.onrender.com/',{
 
 
 
-
-const depot = { lat: 12.9716, lng: 77.5940 };
+//12.898093156428512, 79.14079705175504 for vellore depot and centre of the map
+const depot = { lat: 12.898093156428512, lng: 12.898093156428512 };
 
 
 
@@ -58,7 +58,7 @@ const App = () => {
   useEffect(() => {
     const getOptimizedRoutes = async () => {
       const distanceMatrix = await getDistanceMatrix(depot, bins);
-      const optimizedRoutes = solveCVRP(distanceMatrix, 4);
+      const optimizedRoutes = await solveCVRP(distanceMatrix, 4);
       const trucks = createTruckBins(optimizedRoutes);
       setTrucks(trucks);
       console.log(trucks);

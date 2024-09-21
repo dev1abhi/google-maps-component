@@ -8,10 +8,18 @@ const mapContainerStyle = {
   borderRadius: "10px",
 };
 
+//12.898093156428512, 79.14079705175504 for vellore depot and centre of the map
+// const center = {
+//   lat: 12.9716,
+//   lng: 77.5940,
+// };
+
 const center = {
-  lat: 12.9716,
-  lng: 77.5940,
+  lat: 12.898093156428512,
+  lng: 79.14079705175504,
 };
+
+
 
 const MapContainer = ({ directionsResults, setMap, API_KEY }) => {
   return (

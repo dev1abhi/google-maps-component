@@ -18,7 +18,7 @@ export const getDistanceMatrix = async (depot, bins) => {
     );
 
 
-    console.log('Distance Matrix Response:', response.data);
+    //console.log('Distance Matrix Response:', response.data);
 
     if (response.data && response.data.rows && Array.isArray(response.data.rows) && response.data.rows.length > 0) {
       const elements = response.data.rows[0].elements;
