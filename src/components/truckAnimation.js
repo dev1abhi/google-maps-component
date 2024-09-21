@@ -67,9 +67,13 @@ const TruckAnimation = ({ directionsResults, map, animationStarted, setAnimation
             //console.log(markers[index],bins);
             
             if (bins.length > 0) {
+
+             //console.log(bins);
+
+
               const firstBin = bins[0]; // Get the first bin
               if (!notifiedBins.has(firstBin.address) && compareLatitudes(currentPos.lat(), firstBin.lat)) {
-                console.log(`Truck ${index + 1} reached at ${firstBin.lat}, ${firstBin.lng}`);  //notification (delete the bin)
+                console.log(`Truck ${index + 1} reached at ${firstBin.lat}, ${firstBin.lng}`);  //notification & (delete the bin)
                 // alert(`Truck ${index + 1} reached ${firstBin.address}`);
                 notifiedBins.add(firstBin.address); // Mark this bin as notified
               }
@@ -80,7 +84,7 @@ const TruckAnimation = ({ directionsResults, map, animationStarted, setAnimation
           const finalBin = bins[1];
           // Check if the truck has reached the final destination
           if (markers[index].step === path.length - 1) {
-            console.log(`Truck ${index+1} has reached it's final bin ${finalBin.lat} , ${finalBin.lng}`); //notification (delete the bin )
+            console.log(`Truck ${index+1} has reached it's final bin ${finalBin.lat} , ${finalBin.lng}`); //notification & (delete the bin )
           }
 
           markers[index].step++;
