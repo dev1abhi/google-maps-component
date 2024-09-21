@@ -17,14 +17,16 @@ const API_KEY = 'AIzaSyAV_2oWQhPdIhkkxtTCv29EnRABHyeg-EA'; // Replace with your 
 //development link
 // const socket = io('http://localhost:5000',{  
 //   transports: ["websocket", "polling"],
-//   withCredentials: true
+//   withCredentials: true,
+ 
 // })
 
 
 //production link
 const socket = io('https://eco-india-backend-alpha.vercel.app',{  
   transports: ["websocket", "polling"],
-  withCredentials: true
+  withCredentials: true,
+  secure:true
 })
 
 
