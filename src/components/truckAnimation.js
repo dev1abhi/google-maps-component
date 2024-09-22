@@ -40,7 +40,7 @@ const TruckAnimation = ({ directionsResults, map, animationStarted, setAnimation
         index === self.findIndex((p) => arePathsEqual(p, path))
       );
 
-      const speed = 800; // Speed of the truck animation in milliseconds per step
+      const speed = 450; // Speed of the truck animation in milliseconds per step
 
       const markers = uniqueRoutePaths.map((path, index) => {
         const marker = new window.google.maps.Marker({
