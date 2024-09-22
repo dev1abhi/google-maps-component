@@ -5,7 +5,6 @@ export const getDistanceMatrix = async (depot, bins) => {
   const destinations = bins.map(bin => `${bin.lat},${bin.lng}`);
 
   try {
-    //change according to production link
 
     //development link
     // const response = await axios.get(

@@ -1,6 +1,7 @@
 
 
 import React, { useEffect } from 'react';
+import axios from 'axios';
 
 const TruckAnimation = ({ directionsResults, map, animationStarted, setAnimationStarted,  trucks }) => {
   useEffect(() => {
@@ -21,11 +22,25 @@ const TruckAnimation = ({ directionsResults, map, animationStarted, setAnimation
         return true;
       };
 
+      //https://ecoindia-backend.onrender.com
+      const notifyBinReached = async (lat, lng) => {
+        try {
+          const response = await axios.post('https://ecoindia-backend.onrender.com/bins/notify-bin', {
+            lat: lat,
+            lng: lng,
+          });
+          console.log('Notification sent:', response.data);
+        } catch (error) {
+          console.error('Error sending notification:', error);
+        }
+      };
+      
+
       const uniqueRoutePaths = routePaths.filter((path, index, self) =>
         index === self.findIndex((p) => arePathsEqual(p, path))
       );
 
-      const speed = 1000; // Speed of the truck animation in milliseconds per step
+      const speed = 800; // Speed of the truck animation in milliseconds per step
 
       const markers = uniqueRoutePaths.map((path, index) => {
         const marker = new window.google.maps.Marker({
@@ -74,18 +89,23 @@ const TruckAnimation = ({ directionsResults, map, animationStarted, setAnimation
               const firstBin = bins[0]; // Get the first bin
               if (!notifiedBins.has(firstBin.address) && compareLatitudes(currentPos.lat(), firstBin.lat)) {
                 console.log(`Truck ${index + 1} reached at ${firstBin.lat}, ${firstBin.lng}`);  //notification & (delete the bin)
-                // alert(`Truck ${index + 1} reached ${firstBin.address}`);
+                
+             // Call the notifyBinReached function with the bin's coordinates
+               notifyBinReached(firstBin.lat, firstBin.lng);
+
+
+
                 notifiedBins.add(firstBin.address); // Mark this bin as notified
               }
             }
 
           }
           
-          const finalBin = bins[1];
-          // Check if the truck has reached the final destination
-          if (markers[index].step === path.length - 1) {
-            console.log(`Truck ${index+1} has reached it's final bin ${finalBin.lat} , ${finalBin.lng}`); //notification & (delete the bin )
-          }
+          // const finalBin = bins[1];
+          // // Check if the truck has reached the final destination
+          // if (markers[index].step === path.length - 1) {
+          //   console.log(`Truck ${index+1} has reached it's final bin ${finalBin.lat} , ${finalBin.lng}`); //notification & (delete the bin )
+          // }
 
           markers[index].step++;
         }, speed);

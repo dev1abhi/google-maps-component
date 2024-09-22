@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import MapContainer from "./components/mapContainer";
 import TruckAnimation from "./components/truckAnimation";
 import ControlPanel from "./components/controlPanel";
-
+import axios from "axios";
 import { getDistanceMatrix } from "./algorithms/distanceMatrix";
 import { solveCVRP } from "./algorithms/cvrpSolver";
 
@@ -45,20 +45,38 @@ const bins = [
 
 
 
+
 const App = () => {
   const [directionsResults, setDirectionsResults] = useState([]);
   const [map, setMap] = useState(null);
   const [animationStarted, setAnimationStarted] = useState(false);
   const [trucks , setTrucks]= useState(null);
 
+  const [bins, setBins] = useState([]); 
+
   const handleMarkerFinished = (index) => {
     alert(`Truck ${index + 1} has finished its route.`);
   };
 
+  const fetchBins = async () => {
+    try {
+      const response = await axios.get('https://ecoindia-backend.onrender.com/bins/all-bins');
+      
+      // Assuming the response contains an array of bins with `lat` and `lng` properties
+      return response.data.bins.map(bin => ({
+        lat: bin.lat,
+        lng: bin.lng,
+      }));
+    } catch (error) {
+      console.error('Error fetching bins:', error);
+      return [];
+    }
+  };
+
   useEffect(() => {
     const getOptimizedRoutes = async () => {
-      const distanceMatrix = await getDistanceMatrix(depot, bins);
-      const optimizedRoutes = await solveCVRP(distanceMatrix, 4);
+      const distanceMatrix = await getDistanceMatrix(depot, bins); //dummy
+      const optimizedRoutes = await solveCVRP(distanceMatrix, 4); //4 is truckCount
       const trucks = createTruckBins(optimizedRoutes);
       setTrucks(trucks);
       console.log(trucks);
@@ -72,11 +90,24 @@ const App = () => {
     setAnimationStarted(true); // Start the animation
   });
 
+  socket.on("binsUpdated", async () => {
+    getOptimizedRoutes();
+  });
+
   return () => {
     socket.off("startJourney"); // Clean up the listener when the component unmounts
   };
-}, []);
+}, [bins]);
 
+//listen for backend signals , updates setBins which calls getoptimizedRoutes which rerenders map
+useEffect(() => {
+  socket.on("binsUpdated", async () => {
+    const fetchedBins = await fetchBins();
+    setBins(fetchedBins);
+  });
+
+  return () => socket.off("binsUpdated");
+}, []);
 
   return (
     <div style={{ position: "relative", height: "100vh" }}>
